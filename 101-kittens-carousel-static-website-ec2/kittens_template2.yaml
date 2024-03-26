@@ -48,7 +48,7 @@ Resources:
         - Key: Name
           Value: Kittens Web Server
       UserData: !Base64 |
-        #! /bin/bash 
+        #! /bin/bash -x
 
         # update the OS
         yum update -y
