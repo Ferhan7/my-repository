@@ -1,17 +1,19 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
   EC2 instance and SG for kittens carousel website
-  
+
+
 Parameters:
 
-  pKeyname:
-    Description: Key name for EC2 access
+  pKeyName:
+    Description: Key name for EC2
     Type: AWS::EC2::KeyPair::KeyName
 
-  pImageId:
-    Description: Latest Linux AMI
+  pImageID: 
+    Description: Latest Linux AMI 
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64
+
 
 Resources:
 
@@ -28,41 +30,47 @@ Resources:
         - CidrIp: 0.0.0.0/0
           FromPort: 80
           ToPort: 80
-          IpProtocol: tcp
+          IpProtocol: tcp                    
       Tags: 
         - Key: Name
-          Value: KittensSecGroup
+          Value: KittenSecGroup
         - Key: Company
-          Value: Clarusway
-
+          Value: Xdesign
   rWebServer:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: !Ref pImageId
+      ImageId: !Ref pImageID
       InstanceType: t2.micro
-      KeyName: !Ref pKeyname
+      KeyName: !Ref pKeyName
       SecurityGroupIds: 
         - !Ref rSecGroup
       Tags: 
         - Key: Name
           Value: Kittens Web Server
       UserData: !Base64 |
-        #!/bin/bash
+        #! /bin/bash 
 
         # update the OS
         yum update -y
 
-        #install Apache
+        # install Apache
         yum install httpd -y
 
-        # copy content to /var/www/html folder
+        # copy content to
         cd /var/www/html
-        FOLDER="https://raw.githubusercontent.com/altazbhanji/my-repository/main/101-kittens-carousel-static-website-ec2/static-web"
+        FOLDER="https://raw.githubusercontent.com/Ferhan7/my-repository/main/101-kittens-carousel-static-website-ec2/static-web/"
+
+
+
         wget ${FOLDER}/index.html
         wget ${FOLDER}/cat0.jpg
         wget ${FOLDER}/cat1.jpg
         wget ${FOLDER}/cat2.jpg
 
-        # start and enable Apache service
         systemctl start httpd
-        systemctl enable httpd  
+        systemctl enable httpd
+
+
+  
+
+#Outputs:

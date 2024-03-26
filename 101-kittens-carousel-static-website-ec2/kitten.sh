@@ -1,9 +1,12 @@
 #! /bin/bash
 
+# update the OS
 yum update -y
+
+# install Apache
 yum install httpd -y
 
-
+# copy content to
 cd /var/www/html
 FOLDER="https://raw.githubusercontent.com/Ferhan7/my-repository/main/101-kittens-carousel-static-website-ec2/static-web/"
 
